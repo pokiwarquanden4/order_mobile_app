@@ -1,11 +1,60 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, View, Text, Modal, ScrollView } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import React from 'react';
+import { DataTable } from 'react-native-paper';
+import TableCell, { CellData } from '@/components/TableCell';
 
 export default function HomeScreen() {
+  const [page, setPage] = React.useState<number>(0);
+  const [numberOfItemsPerPageList] = React.useState([8, 15, 20]);
+  const [itemsPerPage, onItemsPerPageChange] = React.useState(
+    numberOfItemsPerPageList[0]
+  );
+
+  const [data, setData] = React.useState<CellData[]>([
+    {
+      id: 1,
+      name: 'Cupcake',
+      quantity: 356,
+      table: 1,
+      note: "We Need more sauce",
+      status: 'Pending'
+    },
+    {
+      id: 2,
+      name: 'Eclair',
+      quantity: 262,
+      table: 1,
+      note: "We Need more sauce",
+      status: 'Pending'
+    },
+    {
+      id: 3,
+      name: 'Frozen yogurt',
+      quantity: 159,
+      table: 1,
+      note: "We Need more sauce",
+      status: 'Pending'
+    },
+    {
+      id: 4,
+      name: 'Gingerbread',
+      quantity: 305,
+      table: 1,
+      note: "We Need more sauce",
+      status: 'Pending'
+    },
+  ]);
+
+  const from = page * itemsPerPage;
+  const to = Math.min((page + 1) * itemsPerPage, data.length);
+
+  React.useEffect(() => {
+    setPage(0);
+  }, [itemsPerPage]);
+
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -15,37 +64,35 @@ export default function HomeScreen() {
           style={styles.reactLogo}
         />
       }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
+      {/* <ScrollView> */}
+      <DataTable>
+        <DataTable.Header>
+          <DataTable.Title>Name</DataTable.Title>
+          <DataTable.Title>Quantity</DataTable.Title>
+          <DataTable.Title>Note</DataTable.Title>
+          <DataTable.Title>Table</DataTable.Title>
+          <DataTable.Title>Status</DataTable.Title>
+        </DataTable.Header>
+
+        <ScrollView style={{ height: 365 }}>
+          {data.slice(from, to).map((data) => (
+            <TableCell data={data} setData={setData}></TableCell>
+          ))}
+        </ScrollView>
+
+        <DataTable.Pagination
+          page={page}
+          numberOfPages={Math.ceil(data.length / itemsPerPage)}
+          onPageChange={(page) => setPage(page)}
+          label={`${from + 1}-${to} of ${data.length}`}
+          numberOfItemsPerPageList={numberOfItemsPerPageList}
+          numberOfItemsPerPage={itemsPerPage}
+          onItemsPerPageChange={onItemsPerPageChange}
+          showFastPaginationControls
+          selectPageDropdownLabel={'Rows per page'}
+        />
+      </DataTable>
+      {/* </ScrollView> */}
     </ParallaxScrollView>
   );
 }
