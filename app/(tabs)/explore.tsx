@@ -10,8 +10,12 @@ import ProfilePage from '@/components/Profile';
 import Schedule from '@/components/Schedule';
 import Money from '@/components/Money';
 import JobDescriptions from '@/components/JobDescriptions';
+import CreateAccount from '@/components/CreateAccount';
+import CreateSchedule from '@/components/CreateSchedule';
+import CreateMoney from '@/components/CreateMoney';
+import CreateAboutYourJob from '@/components/CreateAboutYourJob';
 
-const pageList = ['Profile', 'Timekeeping', 'Money', 'About Your Jobs']
+const pageList = ['Profile', 'Timekeeping', 'Money', 'About Your Jobs', 'Create new account', 'Create new schedule', 'Create Money', 'Create Job Description']
 
 export default function TabTwoScreen() {
   const [page, setPage] = useState<string | undefined>(undefined)
@@ -38,6 +42,18 @@ export default function TabTwoScreen() {
           </Button>
           <Button contentStyle={styles.button} icon="table" mode="outlined" onPress={() => setPage(pageList[3])}>
             About Your Jobs
+          </Button>
+          <Button contentStyle={styles.button} icon="table" mode="outlined" onPress={() => setPage(pageList[4])}>
+            Create new account
+          </Button>
+          <Button contentStyle={styles.button} icon="table" mode="outlined" onPress={() => setPage(pageList[5])}>
+            Create new schedule
+          </Button>
+          <Button contentStyle={styles.button} icon="table" mode="outlined" onPress={() => setPage(pageList[6])}>
+            Create money
+          </Button>
+          <Button contentStyle={styles.button} icon="table" mode="outlined" onPress={() => setPage(pageList[7])}>
+            Create Job Description
           </Button>
           <Button contentStyle={styles.button} icon="exit-to-app" mode="outlined">
             Log out
@@ -81,6 +97,46 @@ export default function TabTwoScreen() {
         ?
         <View>
           <JobDescriptions setPage={setPage}></JobDescriptions>
+        </View>
+        :
+        undefined
+      }
+
+      {/* Create new account */}
+      {page === pageList[4]
+        ?
+        <View>
+          <CreateAccount setPage={setPage}></CreateAccount>
+        </View>
+        :
+        undefined
+      }
+
+      {/* Create new schedule */}
+      {page === pageList[5]
+        ?
+        <View>
+          <CreateSchedule setPage={setPage}></CreateSchedule>
+        </View>
+        :
+        undefined
+      }
+
+      {/* Create money */}
+      {page === pageList[6]
+        ?
+        <View>
+          <CreateMoney setPage={setPage}></CreateMoney>
+        </View>
+        :
+        undefined
+      }
+
+      {/* Create Job Description */}
+      {page === pageList[7]
+        ?
+        <View>
+          <CreateAboutYourJob setPage={setPage}></CreateAboutYourJob>
         </View>
         :
         undefined

@@ -4,11 +4,10 @@ import {
     StyleSheet,
     Text,
     TouchableOpacity,
+    View,
 } from 'react-native';
 import { Agenda } from 'react-native-calendars';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { View } from 'react-native';
+import { Button, Modal, Portal, TextInput } from 'react-native-paper';
 
 const items = {
     '2024-05-12': [{ date: '2024-05-12', name: undefined, data: undefined }],
@@ -19,8 +18,11 @@ const items = {
     '2024-05-17': [{ date: '2024-05-17', name: 'Meeting 6', data: 'Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. ' }]
 }
 
-function Schedule({ setPage }) {
+function ScheduleCreation() {
+    const [data, setData] = useState(items)
     const [date, setDate] = useState(new Date());
+    const [selectedData, setSelectedData] = useState()
+    const [modal, setModal] = useState(false)
 
     onDayPress = (date) => {
         setDate(new Date(date.year, date.month - 1, date.day));
@@ -29,6 +31,15 @@ function Schedule({ setPage }) {
     onDayChange = (date) => {
         setDate(new Date(date.year, date.month - 1, date.day));
     };
+
+    const updateData = useCallback((text, key) => {
+        setSelectedData((preData) => {
+            const newData = { ...preData }
+            newData[key] = text
+
+            return newData
+        })
+    }, [])
 
     const getStringDate = useCallback((date) => {
         const currentDate = new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
@@ -77,12 +88,6 @@ function Schedule({ setPage }) {
 
     return (
         <>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <TouchableOpacity onPress={() => setPage(undefined)}>
-                    <FontAwesomeIcon icon={faArrowLeft} size={20} color="red" />
-                </TouchableOpacity>
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Your Schedule</Text>
-            </View>
             <SafeAreaView style={styles.container}>
                 <Agenda
                     items={{
@@ -92,10 +97,15 @@ function Schedule({ setPage }) {
                     onDayPress={onDayPress}
                     onDayChange={onDayChange}
                     renderItem={(item, isFirst) => {
+                        const press = () => {
+                            setSelectedData(item)
+                            setModal(true)
+                        }
+
                         return (
                             item.data
                                 ?
-                                <TouchableOpacity style={styles.item}>
+                                <TouchableOpacity style={styles.item} onPress={press}>
                                     <Text style={styles.itemText}>{item.name}</Text>
                                     <Text style={styles.itemText}>{item.data}</Text>
                                 </TouchableOpacity>
@@ -109,13 +119,45 @@ function Schedule({ setPage }) {
                                     padding: 10,
                                     justifyContent: 'center',
                                     alignItems: 'center'
-                                }}>
+                                }} onPress={press}>
                                     <Text style={{ color: 'gray' }}>No data...</Text>
                                 </TouchableOpacity>
                         )
                     }}
                 />
             </SafeAreaView>
+
+            <Portal>
+                <Modal visible={modal} onDismiss={() => setModal(false)} contentContainerStyle={{ backgroundColor: 'white', padding: 20 }}>
+                    <Text style={{ marginBottom: 20, fontSize: 20, fontWeight: 'bold' }}>Edit Your Information</Text>
+                    <View>
+                        <TextInput
+                            style={{ marginBottom: 10 }}
+                            label="Header"
+                            value={selectedData ? selectedData.name : ''}
+                            onChangeText={text => updateData(text, 'name')}
+                        />
+                        <TextInput
+                            style={{ marginBottom: 10 }}
+                            label="Details"
+                            value={selectedData ? selectedData.data : ''}
+                            multiline={true} // Allow multiple lines
+                            onChangeText={text => updateData(text, 'data')}
+                        />
+                    </View>
+                    <Button mode='contained'
+                        style={{ marginBottom: 10 }}
+                        onPress={() => {
+                            setModal(false)
+                        }}>
+                        Finish
+                    </Button>
+                    <Button mode='outlined' onPress={() => setModal(false)}>
+                        Cancel
+                    </Button>
+                </Modal>
+            </Portal>
+
         </>
     );
 };
@@ -141,4 +183,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Schedule;
+export default ScheduleCreation;
