@@ -6,16 +6,17 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Button } from 'react-native-paper';
 import { useState } from 'react';
-import ProfilePage from '@/components/Profile';
-import Schedule from '@/components/Schedule';
-import Money from '@/components/Money';
-import JobDescriptions from '@/components/JobDescriptions';
-import CreateAccount from '@/components/CreateAccount';
-import CreateSchedule from '@/components/CreateSchedule';
-import CreateMoney from '@/components/CreateMoney';
-import CreateAboutYourJob from '@/components/CreateAboutYourJob';
+import ProfilePage from '@/components/Profile/Profile';
+import CreateMoney from '@/components/Money/CreateMoney';
+import Money from '@/components/Money/Money';
+import JobDescriptions from '@/components/AboutYourJob/JobDescriptions';
+import CreateAccount from '@/components/CreateAccount/CreateAccount';
+import CreateSchedule from '@/components/Schedule/CreateSchedule';
+import CreateAboutYourJob from '@/components/AboutYourJob/CreateAboutYourJob';
+import Schedule from '@/components/Schedule/Schedule';
+import CreateMenu from '@/components/Menu/CreateMenu';
 
-const pageList = ['Profile', 'Timekeeping', 'Money', 'About Your Jobs', 'Create new account', 'Create new schedule', 'Create Money', 'Create Job Description']
+const pageList = ['Profile', 'Timekeeping', 'Money', 'About Your Jobs', 'Create new account', 'Create new schedule', 'Create Money', 'Create Job Description', 'Menu']
 
 export default function TabTwoScreen() {
   const [page, setPage] = useState<string | undefined>(undefined)
@@ -54,6 +55,9 @@ export default function TabTwoScreen() {
           </Button>
           <Button contentStyle={styles.button} icon="table" mode="outlined" onPress={() => setPage(pageList[7])}>
             Create Job Description
+          </Button>
+          <Button contentStyle={styles.button} icon="table" mode="outlined" onPress={() => setPage(pageList[8])}>
+            Create Menu
           </Button>
           <Button contentStyle={styles.button} icon="exit-to-app" mode="outlined">
             Log out
@@ -137,6 +141,16 @@ export default function TabTwoScreen() {
         ?
         <View>
           <CreateAboutYourJob setPage={setPage}></CreateAboutYourJob>
+        </View>
+        :
+        undefined
+      }
+
+      {/* Create Job Description */}
+      {page === pageList[8]
+        ?
+        <View>
+          <CreateMenu setPage={setPage}></CreateMenu>
         </View>
         :
         undefined

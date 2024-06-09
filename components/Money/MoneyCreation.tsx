@@ -1,7 +1,7 @@
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
 import MoneyTags from './MoneyTags';
-import { Button, Modal, Portal, TextInput } from 'react-native-paper';
+import { Avatar, Button, Modal, Portal, TextInput } from 'react-native-paper';
 
 
 const MoneyCreation = ({ modal, setModal }: { modal: boolean, setModal: Dispatch<SetStateAction<boolean>> }) => {

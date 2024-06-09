@@ -16,7 +16,7 @@ export default function HomeScreen() {
     {
       id: 1,
       name: 'Cupcake',
-      quantity: 356,
+      quantity: 2,
       table: 1,
       note: "We Need more sauce",
       status: 'Pending'
@@ -24,7 +24,7 @@ export default function HomeScreen() {
     {
       id: 2,
       name: 'Eclair',
-      quantity: 262,
+      quantity: 1,
       table: 1,
       note: "We Need more sauce",
       status: 'Pending'
@@ -32,16 +32,16 @@ export default function HomeScreen() {
     {
       id: 3,
       name: 'Frozen yogurt',
-      quantity: 159,
-      table: 1,
+      quantity: 3,
+      table: 2,
       note: "We Need more sauce",
       status: 'Pending'
     },
     {
       id: 4,
       name: 'Gingerbread',
-      quantity: 305,
-      table: 1,
+      quantity: 1,
+      table: 2,
       note: "We Need more sauce",
       status: 'Pending'
     },

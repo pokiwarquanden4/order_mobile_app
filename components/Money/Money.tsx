@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, ScrollView } from 'react-native';
-import MoneyTags from './MoneyTags';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import MoneyTags from './MoneyTags';
 
 
 const Money = ({ setPage }: { setPage: Dispatch<SetStateAction<string | undefined>> }) => {

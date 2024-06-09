@@ -2,12 +2,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import React, { Dispatch, SetStateAction, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import UserTags from './UserTags';
+import UserTags from '../AboutYourJob/UserTags';
 import MoneyCreation from './MoneyCreation';
 import { Button } from 'react-native-paper';
-import AboutYourJobCreation from './AboutYourJobCreation';
 
-const CreateAboutYourJob = ({ setPage }: { setPage: Dispatch<SetStateAction<string | undefined>> }) => {
+const CreateMoney = ({ setPage }: { setPage: Dispatch<SetStateAction<string | undefined>> }) => {
     const [selectedUser, setSelectedUser] = useState<string | undefined>(undefined)
     const [modal, setModal] = useState(false)
 
@@ -23,7 +22,12 @@ const CreateAboutYourJob = ({ setPage }: { setPage: Dispatch<SetStateAction<stri
                 }}>
                     <FontAwesomeIcon icon={faArrowLeft} size={20} color="red" />
                 </TouchableOpacity>
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Create Job Description</Text>
+                {!selectedUser
+                    ?
+                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Create Payment</Text>
+                    :
+                    <Button icon='plus' mode='outlined' onPress={() => setModal(true)}>Add Payment</Button>
+                }
             </View>
             {
                 !selectedUser
@@ -44,7 +48,7 @@ const CreateAboutYourJob = ({ setPage }: { setPage: Dispatch<SetStateAction<stri
                     </ScrollView>
                     :
                     <View>
-                        <AboutYourJobCreation modal={modal} setModal={setModal}></AboutYourJobCreation>
+                        <MoneyCreation modal={modal} setModal={setModal}></MoneyCreation>
                     </View>
             }
         </>
@@ -55,4 +59,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default CreateAboutYourJob;
+export default CreateMoney;

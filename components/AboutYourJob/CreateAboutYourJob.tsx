@@ -3,10 +3,13 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import UserTags from './UserTags';
-import ScheduleCreation from './ScheduleCreation'
+import MoneyCreation from '../Money/MoneyCreation';
+import { Button } from 'react-native-paper';
+import AboutYourJobCreation from './AboutYourJobCreation';
 
-const CreateSchedule = ({ setPage }: { setPage: Dispatch<SetStateAction<string | undefined>> }) => {
+const CreateAboutYourJob = ({ setPage }: { setPage: Dispatch<SetStateAction<string | undefined>> }) => {
     const [selectedUser, setSelectedUser] = useState<string | undefined>(undefined)
+    const [modal, setModal] = useState(false)
 
     return (
         <>
@@ -20,7 +23,7 @@ const CreateSchedule = ({ setPage }: { setPage: Dispatch<SetStateAction<string |
                 }}>
                     <FontAwesomeIcon icon={faArrowLeft} size={20} color="red" />
                 </TouchableOpacity>
-                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Create Schedule</Text>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Create Job Description</Text>
             </View>
             {
                 !selectedUser
@@ -41,7 +44,7 @@ const CreateSchedule = ({ setPage }: { setPage: Dispatch<SetStateAction<string |
                     </ScrollView>
                     :
                     <View>
-                        <ScheduleCreation></ScheduleCreation>
+                        <AboutYourJobCreation modal={modal} setModal={setModal}></AboutYourJobCreation>
                     </View>
             }
         </>
@@ -52,4 +55,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default CreateSchedule;
+export default CreateAboutYourJob;
