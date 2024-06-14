@@ -9,30 +9,8 @@ import * as ImagePicker from 'expo-image-picker'
 import { Dropdown } from 'react-native-element-dropdown';
 import AntDesign from '@expo/vector-icons/build/AntDesign';
 import DropDownIngre from './DropDownIngre';
-
-export interface IIngredient {
-    id: string
-    name: string,
-    type: boolean,
-    number: number,
-}
-
-export interface IDish {
-    id: string
-    name: string,
-    menu: string,
-    imgUrl: string,
-    ingredient: IIngredient[],
-    ingredientConsumer: number[],
-    recommend: boolean,
-    description: string,
-    price: number
-}
-
-export interface IMenu {
-    id: string
-    name: string,
-}
+import { IDish, IIngredient, IMenu } from '@/app/types/MenuTypes';
+import { createMenu } from './MenuAPI';
 
 const CreateMenu = ({ setPage }: { setPage: Dispatch<SetStateAction<string | undefined>> }) => {
     const [selectedMenu, setSelectedMenu] = useState<IMenu | undefined>(undefined)
@@ -68,10 +46,13 @@ const CreateMenu = ({ setPage }: { setPage: Dispatch<SetStateAction<string | und
             number: 3,
         }
     ])
+
+    //List
     const [menuList, setMenuList] = useState<IMenu[]>([])
     const [dishList, setDishList] = useState<IDish[]>([])
+
+    //Data
     const [menuData, setMenuData] = useState<IMenu>({
-        id: '',
         name: ''
     })
     const [dishData, setDishData] = useState<IDish>({
@@ -139,6 +120,19 @@ const CreateMenu = ({ setPage }: { setPage: Dispatch<SetStateAction<string | und
         }
     }
 
+    const onMenuData = useCallback(async (menu: IMenu) => {
+        if (!menu.id) {
+            const data = await createMenu(menu)
+
+            console.log(data)
+
+            setModalMenu(false)
+            setMenuData({
+                name: ''
+            })
+        }
+    }, [])
+
     return (
         <>
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingBottom: 10 }}>
@@ -187,7 +181,9 @@ const CreateMenu = ({ setPage }: { setPage: Dispatch<SetStateAction<string | und
                         })}
                     />
 
-                    <Button mode='contained' onPress={() => setModalMenu(false)}>
+                    <Button mode='contained' onPress={() => {
+                        onMenuData(menuData)
+                    }}>
                         Finish
                     </Button>
                 </Modal>
